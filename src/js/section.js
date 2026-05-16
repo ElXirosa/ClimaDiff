@@ -1,4 +1,4 @@
-import { dateToYear, formatterEcart, tagsFormater, secondeToHours, arrayNullChecker} from "./utils.js";
+import { dateToYear, formatterEcart, tagsFormater, secondeToHours, arrayNullChecker} from "./utils";
 import { APIDATA, STATEMENT } from "./ui.js";
 import { actualDateToAttribute } from "./dateFormatter.js";
 
@@ -51,10 +51,10 @@ export function updateTemperatures(){
             tempRes: parseFloat(APIDATA.dataNow.daily.apparent_temperature_max[0])
         }
         const DIFFERENCES = {
-            tempMax: formatterEcart((TEMPSBEFORE.tempMax - TEMPSNOW.tempMax), APIDATA.dataBefore.daily_units.temperature_2m_max),
-            tempMin: formatterEcart((TEMPSBEFORE.tempMin - TEMPSNOW.tempMin), APIDATA.dataBefore.daily_units.temperature_2m_min),
-            tempMoy: formatterEcart((TEMPSBEFORE.tempMoy - TEMPSNOW.tempMoy), APIDATA.dataBefore.daily_units.temperature_2m_mean),
-            tempRes: formatterEcart((TEMPSBEFORE.tempRes - TEMPSNOW.tempRes), APIDATA.dataBefore.daily_units.apparent_temperature_max)
+            tempMax: formatterEcart((TEMPSNOW.tempMax - TEMPSBEFORE.tempMax), APIDATA.dataBefore.daily_units.temperature_2m_max),
+            tempMin: formatterEcart((TEMPSNOW.tempMin - TEMPSBEFORE.tempMin), APIDATA.dataBefore.daily_units.temperature_2m_min),
+            tempMoy: formatterEcart((TEMPSNOW.tempMoy - TEMPSBEFORE.tempMoy), APIDATA.dataBefore.daily_units.temperature_2m_mean),
+            tempRes: formatterEcart((TEMPSNOW.tempRes - TEMPSBEFORE.tempRes), APIDATA.dataBefore.daily_units.apparent_temperature_max)
         }
         document.getElementById("box-temp").innerHTML = 
         `
@@ -142,9 +142,9 @@ export function updateHumPrecip(){
             snow: parseFloat(APIDATA.dataNow.daily.snowfall_sum[0])
         }
         const DIFFERENCES = {
-            humMoy: formatterEcart((PRECIPBEFORE.humMoy - PRECIPNOW.humMoy), APIDATA.dataBefore.daily_units.relative_humidity_2m_mean),
-            precip: formatterEcart((PRECIPBEFORE.precip - PRECIPNOW.precip), APIDATA.dataBefore.daily_units.precipitation_sum),
-            snow: formatterEcart((PRECIPBEFORE.snow - PRECIPNOW.snow), APIDATA.dataBefore.daily_units.snowfall_sum),
+            humMoy: formatterEcart((PRECIPNOW.humMoy - PRECIPBEFORE.humMoy), APIDATA.dataBefore.daily_units.relative_humidity_2m_mean),
+            precip: formatterEcart((PRECIPNOW.precip - PRECIPBEFORE.precip), APIDATA.dataBefore.daily_units.precipitation_sum),
+            snow: formatterEcart((PRECIPNOW.snow - PRECIPBEFORE.snow), APIDATA.dataBefore.daily_units.snowfall_sum),
         }
         document.getElementById("humid-and-precip").innerHTML = 
         `
@@ -217,9 +217,9 @@ export function updateWind(){
             windDir: parseFloat(APIDATA.dataNow.daily.wind_direction_10m_dominant[0])
         }
         const DIFFERENCES = {
-            windMoy: formatterEcart((WINDBEFORE.windMoy - WINDNOW.windMoy), APIDATA.dataBefore.daily_units.wind_gusts_10m_max),
-            windSpe: formatterEcart((WINDBEFORE.windSpe - WINDNOW.windSpe), APIDATA.dataBefore.daily_units.wind_speed_10m_max),
-            windDir: formatterEcart((WINDBEFORE.windDir - WINDNOW.windDir), APIDATA.dataBefore.daily_units.wind_direction_10m_dominant)
+            windMoy: formatterEcart((WINDNOW.windMoy - WINDBEFORE.windMoy), APIDATA.dataBefore.daily_units.wind_gusts_10m_max),
+            windSpe: formatterEcart((WINDNOW.windSpe - WINDBEFORE.windSpe), APIDATA.dataBefore.daily_units.wind_speed_10m_max),
+            windDir: formatterEcart((WINDNOW.windDir - WINDBEFORE.windDir), APIDATA.dataBefore.daily_units.wind_direction_10m_dominant)
         }
         document.getElementById("box-wind").innerHTML = 
         `
@@ -292,9 +292,9 @@ export function updateSun(){
             cloudCover: parseFloat(APIDATA.dataNow.daily.cloud_cover_mean[0])
         }
         const DIFFERENCES = {
-            sunTime: formatterEcart((SUNBEFORE.sunTime - SUNNOW.sunTime), "h"),
-            radSunMax: formatterEcart((SUNBEFORE.radSunMax - SUNNOW.radSunMax), APIDATA.dataBefore.daily_units.shortwave_radiation_sum),
-            cloudCover: formatterEcart((SUNBEFORE.cloudCover - SUNNOW.cloudCover), APIDATA.dataBefore.daily_units.cloud_cover_mean)
+            sunTime: formatterEcart((SUNNOW.sunTime - SUNBEFORE.sunTime), "h"),
+            radSunMax: formatterEcart((SUNNOW.radSunMax - SUNBEFORE.radSunMax), APIDATA.dataBefore.daily_units.shortwave_radiation_sum),
+            cloudCover: formatterEcart((SUNNOW.cloudCover - SUNBEFORE.cloudCover), APIDATA.dataBefore.daily_units.cloud_cover_mean)
         }
         document.getElementById("sun-and-rays").innerHTML = 
         `
@@ -367,9 +367,9 @@ export function updateAtmo(){
             atmoPressSurf: parseFloat(APIDATA.dataNow.daily.surface_pressure_mean[0])
         }
         const DIFFERENCES = {
-            atmoPress: formatterEcart((ATMOBEFORE.atmoPress - ATMONOW.atmoPress), APIDATA.dataBefore.daily_units.pressure_msl_mean),
-            pointRos: formatterEcart((ATMOBEFORE.pointRos - ATMONOW.pointRos), APIDATA.dataBefore.daily_units.dew_point_2m_mean),
-            atmoPressSurf: formatterEcart((ATMOBEFORE.atmoPressSurf - ATMONOW.atmoPressSurf), APIDATA.dataBefore.daily_units.surface_pressure_mean)
+            atmoPress: formatterEcart((ATMONOW.atmoPress - ATMOBEFORE.atmoPress), APIDATA.dataBefore.daily_units.pressure_msl_mean),
+            pointRos: formatterEcart((ATMONOW.pointRos - ATMOBEFORE.pointRos), APIDATA.dataBefore.daily_units.dew_point_2m_mean),
+            atmoPressSurf: formatterEcart((ATMONOW.atmoPressSurf - ATMOBEFORE.atmoPressSurf), APIDATA.dataBefore.daily_units.surface_pressure_mean)
         }
         document.getElementById("pressure-and-atmo").innerHTML = 
         `
