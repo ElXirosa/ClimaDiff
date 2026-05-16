@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="src/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>meteo</title>
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <header>
+    <div class="container-header">
+        <div class="box-logo-header">
+            <span class="sp-brand">ClimatDiff<br><em>Version Alpha</em></span>
+            <span class="tag-openmeteo">OPEN-METEO</span>
+        </div>
+        <span class="info-text">Comparaison météo temporelle</span>
+    </div>
+  </header>
+  <body>
+    <div id="main-wrapper">
+        <div id="container-introduction">
+            <p class="info-text-light">↕ VOYAGEUR CLIMATIQUE</p>
+            <h1>Le temps <em>d'avant</em>,<br>face au temps d'aujourd'hui<span class="star-note">*</span></h1>
+            <p class="text-intro">Entrez une ville et une date, choisissez votre fenêtre temporelle. Comparez température, humidité, vent et bien plus <br> il y a 10 ou 20 ans, jour pour jour.</p>
+            <span class="star-note">(*) Vu que les données du jour même ne sont pas systématiquement accessibles, le site se base sur les données d'hier.</span>
+        </div>
+        <div class="section-wrapper">
+            <div id="box-error" class="inactive"></div>
+            <div class="section_input">
+                <div class="inputs-title">⚙ Paramètres de recherche</div>
+                <div class="container-input">
+                        <div class="box-input">
+                            <label for="ville">VILLE / LIEU</label>
+                            <input type="text" name="ville" id="ville" class="ville-input">
+                            <nav id="nav-ville" class="inactive">
+                                <ul id="ul-ville">
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="box-input">
+                            <label for="date">ANCIENNE DATE À COMPARER</label>
+                            <input type="date" name="date" id="date" class="date-input">
+                        </div>
+                    <button type="submit" id="submit">Comparer →</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-diff">
+            <div class="box-diff" id="box-diff-temp">
+                <span class="sp-diff-icone">🌡️</span>
+                <span class="title-diff">Écart température max</span>
+                <span class="diff-value" id="temp-diff-value">0.0°C</span>
+                <p class="desc-diff" id="desc-temp-diff">En attente...</p>
+            </div>
+            <div class="box-diff" id="box-diff-humi">
+                <span class="sp-diff-icone">💧</span>
+                <span class="title-diff">Écart humidité</span>
+                <span class="diff-value" id="temp-hum-value">0 %</span>
+                <p class="desc-diff" id="desc-hum-diff">En attente...</p>
+            </div>
+            <div class="box-diff" id="box-diff-wind">
+                <span class="sp-diff-icone">💨</span>
+                <span class="title-diff">Écart vent moyen</span>
+                <span class="diff-value" id="temp-vent-value">0.0km/h</span>
+                <p class="desc-diff" id="desc-vent-diff">En attente...</p>
+            </div>
+        </div>
+        <div class="container-graph">
+        <canvas id="main-graph"></canvas>
+        </div>
+        <div class="header-allvalue">
+            <div class="box-hd-allvalue">
+                <span class="pt-hd-fullvalue before"></span>
+                <span class="sp-hd-fullvalue before" id="sp-fullyear-before">20..</span>
+                <p class="p-hd-fullvalue" id="p-full-before">Il y a .. ans<br>../../20..</p>
+            </div>
+            <span class="sp-cityname">...., ....</span>
+            <div class="box-hd-allvalue">
+                <span class="pt-hd-fullvalue now"></span>
+                <span class="sp-hd-fullvalue now" id="sp-fullyear-now">2026</span>
+                <p class="p-hd-fullvalue" id="p-full-now">Hier<br>../../20..</p>
+            </div>
+        </div>
+<div class="container-allvalue">
+    <span class="star-note">Les données peuvent parfois ne pas être disponibles, selon l'année les équipements étaient moins présents qu'aujourd'hui.<br>
+        C'est pour cela que certaines données affichent 0 alors que normalement elles ne devraient pas et de ce fait créent une grosse différence</span>
+    <div class="title-allvalue">
+        <span class="box-title-allvalue">🌡 Températures</span>
+    </div>
+    <div class="container-box-allvalues" id="box-temp">
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °C</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fcc11a" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <span class="span-title-center">Température max</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °C</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °C</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fcc11a" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+                <span class="span-title-center">Température min</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °C</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °C</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffca29" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thermometer-icon lucide-thermometer"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+                <span class="span-title-center">Température moy.</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °C</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °C</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fcc11a" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thermometer-sun-icon lucide-thermometer-sun"><path d="M12 2v2"/><path d="M12 8a4 4 0 0 0-1.645 7.647"/><path d="M2 12h2"/><path d="M20 14.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/><path d="m4.93 4.93 1.41 1.41"/><path d="m6.34 17.66-1.41 1.41"/></svg>
+                <span class="span-title-center">Ressenti max</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °C</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-allvalue">
+    <div class="title-allvalue">
+        <span class="box-title-allvalue">💧 Humidité & Précipitations</span>
+    </div>
+    <div class="container-box-allvalues" id="humid-and-precip">
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> %</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4fc3f7" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-droplets-icon lucide-droplets"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+                <span class="span-title-center">Humidité moy.</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> %</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> mm</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4fc3f7" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-hail-icon lucide-cloud-hail"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v2"/><path d="M8 14v2"/><path d="M16 20h.01"/><path d="M8 20h.01"/><path d="M12 16v2"/><path d="M12 22h.01"/></svg>
+                <span class="span-title-center">Précipitations</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> mm</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> cm</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4fc3f7" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake-icon lucide-snowflake"><path d="m10 20-1.25-2.5L6 18"/><path d="M10 4 8.75 6.5 6 6"/><path d="m14 20 1.25-2.5L18 18"/><path d="m14 4 1.25 2.5L18 6"/><path d="m17 21-3-6h-4"/><path d="m17 3-3 6 1.5 3"/><path d="M2 12h6.5L10 9"/><path d="m20 10-1.5 2 1.5 2"/><path d="M22 12h-6.5L14 15"/><path d="m4 10 1.5 2L4 14"/><path d="m7 21 3-6-1.5-3"/><path d="m7 3 3 6h4"/></svg>
+                <span class="span-title-center">Couverture neige</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> cm</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-allvalue">
+    <div class="title-allvalue">
+        <span class="box-title-allvalue">💨 Vent</span>
+    </div>
+    <div class="container-box-allvalues" id="box-wind">
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> km/h</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind-icon lucide-wind"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>
+                <span class="span-title-center">Vent moyen</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> km/h</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> km/h</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fan-icon lucide-fan"><path d="M10.827 16.379a6.082 6.082 0 0 1-8.618-7.002l5.412 1.45a6.082 6.082 0 0 1 7.002-8.618l-1.45 5.412a6.082 6.082 0 0 1 8.618 7.002l-5.412-1.45a6.082 6.082 0 0 1-7.002 8.618l1.45-5.412Z"/><path d="M12 12v.01"/></svg>
+                <span class="span-title-center">Rafales max</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> km/h</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-compass-icon lucide-compass"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg>
+                <span class="span-title-center">Direction dominante</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-allvalue">
+    <div class="title-allvalue">
+        <span class="box-title-allvalue">☀️ Ensoleillement & Rayonnement</span>
+    </div>
+    <div class="container-box-allvalues" id="sun-and-rays">
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> h</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fdc91f" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-medium-icon lucide-sun-medium"><circle cx="12" cy="12" r="4"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M3 12h1"/><path d="M20 12h1"/><path d="m18.364 5.636-.707.707"/><path d="m6.343 17.657-.707.707"/><path d="m5.636 5.636.707.707"/><path d="m17.657 17.657.707.707"/></svg>
+                <span class="span-title-center">Heures d'ensoleillement</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> h</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> MJ/m²</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fdc91f" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-solar-panel-icon lucide-solar-panel"><path d="M11 2h2"/><path d="m14.28 14-4.56 8"/><path d="m21 22-1.558-4H4.558"/><path d="M3 10v2"/><path d="M6.245 15.04A2 2 0 0 1 8 14h12a1 1 0 0 1 .864 1.505l-3.11 5.457A2 2 0 0 1 16 22H4a1 1 0 0 1-.863-1.506z"/><path d="M7 2a4 4 0 0 1-4 4"/><path d="m8.66 7.66 1.41 1.41"/></svg>
+                <span class="span-title-center">Rayonnement max</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> MJ/m²</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> %</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fdc91f" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-fog-icon lucide-cloud-fog"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 17H7"/><path d="M17 21H9"/></svg>
+                <span class="span-title-center">Couverture nuageuse</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> %</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-allvalue last-container">
+    <div class="title-allvalue">
+        <span class="box-title-allvalue">🔬 Pression & Atmosphère</span>
+    </div>
+    <div class="container-box-allvalues" id="pressure-and-atmo">
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> hPa</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a51d2d" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-gauge-icon lucide-circle-gauge"><path d="M15.6 2.7a10 10 0 1 0 5.7 5.7"/><circle cx="12" cy="12" r="2"/><path d="M13.4 10.6 19 5"/></svg>
+                <span class="span-title-center">Pression atm. (mer)</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> hPa</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> °C</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a51d2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bubbles-icon lucide-bubbles"><path d="M7.001 15.085A1.5 1.5 0 0 1 9 16.5"/><circle cx="18.5" cy="8.5" r="3.5"/><circle cx="7.5" cy="16.5" r="5.5"/><circle cx="7.5" cy="4.5" r="2.5"/></svg>
+                <span class="span-title-center">Point de rosée</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> °C</em></span>
+            </div>
+        </div>
+        <div class="box-allvalues">
+            <div class="value-box">
+                <div class="left-value-wrapper">
+                    <span class="sp-stat-value">--<em> hPa</em></span>
+                </div>
+            </div>
+            <div class="box-center-allvalue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a51d2d" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-gauge-icon lucide-circle-gauge"><path d="M15.6 2.7a10 10 0 1 0 5.7 5.7"/><circle cx="12" cy="12" r="2"/><path d="M13.4 10.6 19 5"/></svg>
+                <span class="span-title-center">Pression atm. (surface)</span>
+                <span class="sp-diff-value">--</span>
+            </div>
+            <div class="value-box">
+                <span class="sp-stat-value">--<em> hPa</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    <footer>
+        <p class="p-footer">Données fournies par <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a> — données historiques et prévisions libres d'accès.<br>
+      Géocodage via <a href="https://open-meteo.com/en/docs/geocoding-api" target="_blank">Open-Meteo Geocoding API</a>.<br>Site développé par <em><a href="#">XRS</a></em></p>
+    </footer>
+  </body>
+</html>
