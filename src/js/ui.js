@@ -141,9 +141,9 @@ function renderCards(previousData, actualData){
         const spWind = document.getElementById("temp-vent-value");
         const descWind = document.getElementById("desc-vent-diff");
 
-        const diffTemp = calculerEcart(previousData.daily.temperature_2m_max[0], actualData.daily.temperature_2m_max[0]);
-        const diffHumi = calculerEcart(previousData.daily.relative_humidity_2m_mean[0], actualData.daily.relative_humidity_2m_mean[0]);
-        const diffWind = calculerEcart(previousData.daily.wind_speed_10m_max[0], actualData.daily.wind_speed_10m_max[0]);
+        const diffTemp = calculerEcart(actualData.daily.temperature_2m_max[0], previousData.daily.temperature_2m_max[0]);
+        const diffHumi = calculerEcart(actualData.daily.relative_humidity_2m_mean[0], previousData.daily.relative_humidity_2m_mean[0]);
+        const diffWind = calculerEcart(actualData.daily.wind_speed_10m_max[0], previousData.daily.wind_speed_10m_max[0]);
 
         updateCard(diffTemp,spTemperature, descTemperature, boxDiffTemp);
         updateCard(diffHumi,spHumidity, descHumidity, boxDiffHumi);
