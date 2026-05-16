@@ -54,7 +54,6 @@ export function arrayNullChecker(array){
         console.error(`Les valeures du tableau contiennent un null`);
         return false;
     }else{
-        console.log(`Les valeures du tableau sont intègres.`);
         return true;
     }
 }
