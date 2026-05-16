@@ -1,4 +1,4 @@
-import { dateToYear, formatterEcart, tagsFormater, secondeToHours, arrayNullChecker} from "./utils";
+import { dateToYear, formatterEcart, tagsFormater, secondeToHours, arrayNullChecker} from "./utils.js";
 import { APIDATA, STATEMENT } from "./ui.js";
 import { actualDateToAttribute } from "./dateFormatter.js";
 
