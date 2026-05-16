@@ -1,4 +1,3 @@
-import { callback, color } from "chart.js/helpers";
 import { fetchMeteo, fetchMeteoHourly, rechercherVilles } from "./api.js";
 import { actualDateToAttribute } from "./dateFormatter.js";
 import { calculerEcart, dateToYear, formatterEcart, secondeToHours, tagsFormater } from "./utils.js";
